@@ -16,13 +16,7 @@ void TermUi::init(){
     noecho();
     keypad(stdscr, TRUE); 
 
-    initWin();
     initColor();
-
-    wrefresh(_win); 
-    getch();
-    delwin(_win);
-    endwin();
 }
 
 void TermUi::initColor(){
@@ -34,31 +28,24 @@ void TermUi::initColor(){
 
         bkgd(COLOR_PAIR(TUI_BACKGROUND_COLOR_IDX)); 
         refresh();
-        wbkgd(_win, COLOR_PAIR(TUI_WIN_BACKGROUND_COLOR_IDX)); 
     #endif 
 }
 
-void TermUi::initWin(){
-    clear();
-    refresh();
 
-    int win_height = 0;
-    int win_width = 0;
+void TermUi::addPage(){
+    _pages.push_back(std::make_unique<Page>());
+}
 
-    #if defined(RATIO_WIN_SIZED)
-        win_height = LINES * TUI_WIN_HEIGHT;
-        win_width  = COLS  * TUI_WIN_WIDTH;
-    #elif defined(EXACT_WIN_SIZED)
-        win_height = TUI_WIN_HEIGHT;
-        win_width  = TUI_WIN_WIDTH;
-    #else 
-        win_height = LINES * 0.66;
-        win_width  = COLS  * 0.50;
-    #endif
+void TermUi::addPage(int height, int width){
+    _pages.push_back(std::make_unique<Page>(height, width));
+}
 
-    int startx = (COLS - win_width) / 2; 
-    int starty = (LINES - win_height) / 2; 
-    _win = newwin(win_height, win_width, starty, startx);
+void TermUi::showPage(int idx){
+    _pages[_currentPage]->hide();
+    _currentPage = idx;
+    _pages[_currentPage]->show();
+}
 
-    box(_win, 0, 0); 
+void TermUi::showMainPage(){
+    showPage(0);
 }
