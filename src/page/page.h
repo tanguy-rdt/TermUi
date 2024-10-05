@@ -16,7 +16,8 @@ class Page {
 
         void show();
         void hide();
-        void addSelectableLine();
+        void addSelectableLine(std::string txt);
+        void addTitle(std::string txt);
 
     private:
         void draw();
