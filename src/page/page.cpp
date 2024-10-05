@@ -2,8 +2,9 @@
 
 #include "term_ui_conf_internal.h"
 
-#include "selectable_line.h"
 #include "title_line.h"
+#include "category_line.h"
+#include "selectable_line.h"
 
 Page::Page(){
     #if defined(RATIO_WIN_SIZED)
@@ -64,10 +65,14 @@ void Page::hide() {
     wrefresh(_win);
 }
 
-void Page::addSelectableLine(std::string txt){
-    _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt));
-}
-
 void Page::addTitle(std::string txt){
     _lines.push_back(std::make_unique<TitleLine>(_win, (_lines.size() + 1), txt));
+}
+
+void Page::addCategoryLine(std::string txt){
+    _lines.push_back(std::make_unique<CategoryLine>(_win, (_lines.size() + 1), txt));
+}
+
+void Page::addSelectableLine(std::string txt){
+    _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt));
 }
