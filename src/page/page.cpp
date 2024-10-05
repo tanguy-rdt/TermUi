@@ -80,6 +80,11 @@ void Page::addSelectableLine(std::string txt, void (*callback)(bool)){
     _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt, callback));
 }
 
+AbstractMenu* Page::addMenu() {
+    _menu = std::make_unique<InPageMenu>(_win);
+    return _menu.get();
+}
+
 void Page::addMenu(std::vector<std::string> btn, std::vector<void (*)()> callbacks) {
     _menu = std::make_unique<InPageMenu>(_win, btn, callbacks);
 }
@@ -159,6 +164,8 @@ void Page::switchBtwLineMenu() {
 }
 
 void Page::interactWithLine() {
-    if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::SELECTABLE) && !_menuIsFocused)
+    if ( _menuIsFocused )
+        _menu->select();
+    else if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::SELECTABLE))
         _lines[_currentLine]->toggle();
 }

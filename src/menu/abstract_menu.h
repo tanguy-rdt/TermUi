@@ -6,9 +6,11 @@ class AbstractMenu {
         virtual ~AbstractMenu() {}
 
         virtual void draw() = 0;
+        virtual void addBtn(std::string txt, void (*callback)()) = 0;
         virtual void highlight(bool enable) = 0;
         virtual void goToNext() = 0;
         virtual void goToPrevious() = 0;
+        virtual void select() = 0;
 
     private:
 

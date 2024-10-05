@@ -21,6 +21,7 @@ class Page {
         void addTitle(std::string txt);
         void addCategoryLine(std::string txt);
         void addSelectableLine(std::string txt, void (*callback)(bool));
+        AbstractMenu* addMenu();
         void addMenu(std::vector<std::string> btn, std::vector<void (*)()> callbacks);
         void goToFirstFocusableLine();
         void goToUpperLine();

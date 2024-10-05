@@ -69,10 +69,10 @@ void TermUi::run() {
             case KEY_RIGHT:
                 _pages[_currentPage]->goToRight();
                 break;
-            case 9:
+            case 9: // tab
                 _pages[_currentPage]->switchBtwLineMenu();
                 break;
-            case 10:
+            case 10: // enter
                 _pages[_currentPage]->interactWithLine();
                 break;
         }

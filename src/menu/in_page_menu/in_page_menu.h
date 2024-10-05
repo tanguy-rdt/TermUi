@@ -12,12 +12,15 @@
 class InPageMenu: public AbstractMenu {
     public:
         InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector<void (*)()> callbacks);
+        InPageMenu(WINDOW* win);
         ~InPageMenu();
         
         void draw();
+        void addBtn(std::string txt, void (*callback)());
         void highlight(bool enable);
         void goToNext();
         void goToPrevious();
+        void select();
 
     private:
         void calcBtnPosX();

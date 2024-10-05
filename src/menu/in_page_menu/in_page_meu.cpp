@@ -18,6 +18,17 @@ InPageMenu::InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector
     draw();
 }
 
+InPageMenu::InPageMenu(WINDOW* win)
+    : _win(win) {
+
+    int winHeight, winWidth;
+    getmaxyx(_win, winHeight, winWidth);
+    _line = winHeight - 2;
+    
+    calcBtnPosX();
+    draw();
+}
+
 InPageMenu::~InPageMenu(){
 
 }
@@ -30,6 +41,15 @@ void InPageMenu::draw() {
         mvwprintw(_win, _line, _btnPosX[idx], "%s", _btn[idx].c_str());
     }
     wrefresh(_win);  
+}
+
+void InPageMenu::addBtn(std::string txt, void (*callback)()) {
+    _btn.push_back(txt);
+    auto sig = std::make_unique<sigslot::signal<>>();
+    sig->connect(callback);  
+    sigs.push_back(std::move(sig)); 
+    
+    calcBtnPosX();
 }
 
 
@@ -54,7 +74,6 @@ void InPageMenu::goToPrevious() {
     if (_currentBtn > 0) {
         _currentBtn--;
         highlight(true);
-        (*sigs[_currentBtn])();
     }
 }
 
@@ -62,8 +81,11 @@ void InPageMenu::goToNext() {
     if (_currentBtn < _btn.size() - 1) {
         _currentBtn++;
         highlight(true);
-        (*sigs[_currentBtn])();
     }
+}
+
+void InPageMenu::select() {
+    (*sigs[_currentBtn])();
 }
 
 void InPageMenu::calcBtnPosX() {
