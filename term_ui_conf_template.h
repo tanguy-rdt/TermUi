@@ -38,5 +38,22 @@
     #define CONF_TUI_HIGHLIGHT_COLOR RED
 #endif
 
+
+//
+// CUSTOM LINES
+//
+
+#define USE_CUSTOM_LINES 1
+#if USE_CUSTOM_LINES == 1
+    #define CONF_TUI_PREFIX_TITLE_LINE "["
+    #define CONF_TUI_SUFIX_TITLE_LINE  "]"
+
+    #define CONF_TUI_PREFIX_CATEGORY_LINE "--"
+    #define CONF_TUI_SUFIX_CATEGORY_LINE  ""
+
+    #define CONF_TUI_CHECKED_SELECTABLE_LINE   "  [x]"
+    #define CONF_TUI_UNCHECKED_SELECTABLE_LINE "  [ ]"
+#endif
+
 #endif  /*TERM_UI_CONF_H*/
 

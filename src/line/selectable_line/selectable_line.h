@@ -27,8 +27,6 @@ class SelectableLine: public AbstractLine {
         WINDOW* _win;
         int _line;
         std::string _txt;
-        const std::string _txtChecked = "    [x] ";
-        const std::string _txtUnchecked = "    [ ] ";
         bool _checked = false;
 };
 #endif // SELECTABLE_LINE_H

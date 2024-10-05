@@ -32,13 +32,13 @@ void SelectableLine::draw() {
 }
 
 void SelectableLine::drawCheckedLine() {
-    std::string txt = _txtChecked + _txt;
+    std::string txt = TUI_CHECKED_SELECTABLE_LINE + _txt;
     mvwprintw(_win, _line, 3, "%s", txt.c_str());
     wrefresh(_win);
 }
 
 void SelectableLine::drawUncheckedLine() {
-    std::string txt = _txtUnchecked + _txt;
+    std::string txt = TUI_UNCHECKED_SELECTABLE_LINE + _txt;
     mvwprintw(_win, _line, 3, "%s", txt.c_str());
     wrefresh(_win);
 }
