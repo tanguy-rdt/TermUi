@@ -11,6 +11,13 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 
 #
+# ADD THIRD_PARTY
+# 
+
+add_subdirectory(third-party/sigslot)
+
+
+#
 # ADD .cpp & .h
 # 
 
@@ -49,4 +56,4 @@ endif()
 
 add_library(termUi STATIC ${SRC} ${HEADER_FILES})
 target_include_directories(termUi PUBLIC ${SRC_DIR} ${INCLUDE_DIRS} ${TERM_UI_CONF_PATH})
-target_link_libraries(termUi PUBLIC ncurses)
+target_link_libraries(termUi PUBLIC ncurses Pal::Sigslot)

@@ -1,11 +1,14 @@
 #include "selectable_line.h"
 #include "term_ui_conf_internal.h"
 
-SelectableLine::SelectableLine(WINDOW* win, int line, std::string txt)
+SelectableLine::SelectableLine(WINDOW* win, int line, std::string txt, void (*callback)(bool))
     : _win(win), _line(line), _txt(txt) {
 
     addInteraction(AbstractLine::LineInteraction::FOCUSABLE);
     addInteraction(AbstractLine::LineInteraction::SELECTABLE);
+
+    onToggle.connect(callback);
+
     drawUncheckedLine();
 }
 
@@ -21,6 +24,7 @@ void SelectableLine::highlight(bool enable) {
 void SelectableLine::toggle() {
     _checked = !_checked;
     _checked ? drawCheckedLine() : drawUncheckedLine();
+    onToggle(_checked);
 }
 
 void SelectableLine::draw() {

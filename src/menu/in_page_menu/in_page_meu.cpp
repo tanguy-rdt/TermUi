@@ -1,8 +1,14 @@
 #include "in_page_menu.h"
 #include "term_ui_conf_internal.h"
 
-InPageMenu::InPageMenu(WINDOW* win, std::vector<std::string> btnTxt)
+InPageMenu::InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector<void (*)()> callbacks)
     : _win(win), _btn(btnTxt) {
+
+    for (const auto& cb: callbacks) {
+        auto sig = std::make_unique<sigslot::signal<>>();
+        sig->connect(cb);  
+        sigs.push_back(std::move(sig)); 
+    }
 
     int winHeight, winWidth;
     getmaxyx(_win, winHeight, winWidth);
@@ -48,6 +54,7 @@ void InPageMenu::goToPrevious() {
     if (_currentBtn > 0) {
         _currentBtn--;
         highlight(true);
+        (*sigs[_currentBtn])();
     }
 }
 
@@ -55,6 +62,7 @@ void InPageMenu::goToNext() {
     if (_currentBtn < _btn.size() - 1) {
         _currentBtn++;
         highlight(true);
+        (*sigs[_currentBtn])();
     }
 }
 

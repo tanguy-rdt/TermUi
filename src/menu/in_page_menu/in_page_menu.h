@@ -5,11 +5,13 @@
 #include <vector>
 #include <ncurses.h>
 
+#include "sigslot/signal.hpp"
+
 #include "abstract_menu.h"
 
 class InPageMenu: public AbstractMenu {
     public:
-        InPageMenu(WINDOW* win, std::vector<std::string> btnTxt);
+        InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector<void (*)()> callbacks);
         ~InPageMenu();
         
         void draw();
@@ -19,6 +21,8 @@ class InPageMenu: public AbstractMenu {
 
     private:
         void calcBtnPosX();
+
+        std::vector<std::unique_ptr<sigslot::signal<>>> sigs;
 
         WINDOW* _win;
         std::vector<std::string> _btn;
