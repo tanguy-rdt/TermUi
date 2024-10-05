@@ -1,7 +1,12 @@
 #ifndef PAGE_H
 #define PAGE_H
 
+#include <vector>
+#include <string>
+#include <memory>
 #include <ncurses.h>
+
+#include "abstract_line.h"
 
 class Page {
     public:
@@ -11,12 +16,16 @@ class Page {
 
         void show();
         void hide();
+        void addSelectableLine();
 
     private:
         void draw();
-        
+        void init();
+
         int _height;
         int _width;
         WINDOW* _win;
+
+        std::vector<std::unique_ptr<AbstractLine>> _lines;
 };
 #endif // PAGE_H

@@ -32,12 +32,14 @@ void TermUi::initColor(){
 }
 
 
-void TermUi::addPage(){
+Page* TermUi::addPage(){
     _pages.push_back(std::make_unique<Page>());
+    return _pages.back().get();
 }
 
-void TermUi::addPage(int height, int width){
+Page* TermUi::addPage(int height, int width){
     _pages.push_back(std::make_unique<Page>(height, width));
+    return _pages.back().get();
 }
 
 void TermUi::showPage(int idx){
