@@ -7,7 +7,8 @@ SelectableLine::SelectableLine(WINDOW* win, int line, std::string txt, void (*ca
     addInteraction(AbstractLine::LineInteraction::FOCUSABLE);
     addInteraction(AbstractLine::LineInteraction::SELECTABLE);
 
-    onToggle.connect(callback);
+    if (callback != nullptr)
+        onToggle.connect(callback);
 
     drawUncheckedLine();
 }

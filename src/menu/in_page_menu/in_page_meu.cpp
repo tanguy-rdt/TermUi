@@ -6,7 +6,8 @@ InPageMenu::InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector
 
     for (const auto& cb: callbacks) {
         auto sig = std::make_unique<sigslot::signal<>>();
-        sig->connect(cb);  
+        if (cb != nullptr)
+            sig->connect(cb);  
         sigs.push_back(std::move(sig)); 
     }
 
@@ -46,7 +47,8 @@ void InPageMenu::draw() {
 void InPageMenu::addBtn(std::string txt, void (*callback)()) {
     _btn.push_back(txt);
     auto sig = std::make_unique<sigslot::signal<>>();
-    sig->connect(callback);  
+    if (callback != nullptr)
+        sig->connect(callback);  
     sigs.push_back(std::move(sig)); 
     
     calcBtnPosX();
