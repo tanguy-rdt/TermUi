@@ -16,8 +16,13 @@ void TermUi::init(){
     noecho();
     keypad(stdscr, TRUE); 
 
-    initColor();
     initWin();
+    initColor();
+
+    wrefresh(_win); 
+    getch();
+    delwin(_win);
+    endwin();
 }
 
 void TermUi::initColor(){
@@ -26,11 +31,14 @@ void TermUi::initColor(){
         init_pair(TUI_BACKGROUND_COLOR_IDX,     TUI_BACKGROUND_COLOR); 
         init_pair(TUI_WIN_BACKGROUND_COLOR_IDX, TUI_WIN_BACKGROUND_COLOR); 
         init_pair(TUI_HIGHLIGHT_COLOR_IDX,      TUI_HIGHLIGHT_COLOR);
+
+        bkgd(COLOR_PAIR(TUI_BACKGROUND_COLOR_IDX)); 
+        refresh();
+        wbkgd(_win, COLOR_PAIR(TUI_WIN_BACKGROUND_COLOR_IDX)); 
     #endif 
 }
 
 void TermUi::initWin(){
-    bkgd(COLOR_PAIR(1)); 
     clear();
     refresh();
 
@@ -52,12 +60,5 @@ void TermUi::initWin(){
     int starty = (LINES - win_height) / 2; 
     _win = newwin(win_height, win_width, starty, startx);
 
-    wbkgd(_win, COLOR_PAIR(2)); 
     box(_win, 0, 0); 
-    wrefresh(_win); 
-
-    getch();
-
-    delwin(_win);
-    endwin();
 }
