@@ -1,15 +1,15 @@
 #include "termUi.h"
 #include "term_ui_conf_internal.h"
 
-TermUi::TermUi(){
+TermUi::TermUi() {
 
 }
 
-TermUi::~TermUi(){
+TermUi::~TermUi() {
 
 }
 
-void TermUi::init(){
+void TermUi::init() {
     initscr();          
 
     cbreak();   
@@ -19,7 +19,7 @@ void TermUi::init(){
     initColor();
 }
 
-void TermUi::initColor(){
+void TermUi::initColor() {
     #ifdef USE_COLOR
         start_color();
         init_pair(TUI_BACKGROUND_COLOR_IDX,     TUI_BACKGROUND_COLOR); 
@@ -32,22 +32,44 @@ void TermUi::initColor(){
 }
 
 
-Page* TermUi::addPage(){
+Page* TermUi::addPage() {
     _pages.push_back(std::make_unique<Page>());
     return _pages.back().get();
 }
 
-Page* TermUi::addPage(int height, int width){
+Page* TermUi::addPage(int height, int width) {
     _pages.push_back(std::make_unique<Page>(height, width));
     return _pages.back().get();
 }
 
-void TermUi::showPage(int idx){
+void TermUi::showPage(int idx) {
     _pages[_currentPage]->hide();
     _currentPage = idx;
     _pages[_currentPage]->show();
+    _pages[_currentPage]->goToFirstFocusableLine();
 }
 
-void TermUi::showMainPage(){
+void TermUi::showMainPage() {
     showPage(0);
+}
+
+void TermUi::run() {
+    int ch;
+    while ((ch = getch()) != 'q') { 
+        switch (ch) {
+            case KEY_UP:
+                _pages[_currentPage]->goToUpperLine();
+                break;
+            case KEY_DOWN:
+                _pages[_currentPage]->goToLowerLine();
+                break;
+            case KEY_LEFT:
+                break;
+            case KEY_RIGHT:
+                break;
+            case 10:
+                _pages[_currentPage]->interactWithLine();
+                break;
+        }
+    }
 }

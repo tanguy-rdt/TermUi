@@ -76,3 +76,58 @@ void Page::addCategoryLine(std::string txt){
 void Page::addSelectableLine(std::string txt){
     _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt));
 }
+
+void Page::goToFirstFocusableLine() {
+    int oldCurrentLine = _currentLine;
+    _currentLine = 0;
+
+    while ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) ) {
+        _currentLine ++;
+    }
+
+    if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::FOCUSABLE) ) {
+        _lines[oldCurrentLine]->highlight(false);
+        _lines[_currentLine]->highlight(true);
+    } else {
+        _currentLine = oldCurrentLine;
+    }
+}
+
+void Page::goToUpperLine() {
+    if ( _currentLine > 0 ) {
+        int oldCurrentLine = _currentLine;
+
+        do {
+            _currentLine --;
+        } while( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) && _currentLine > 0 );
+
+        if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) ) {
+            _currentLine = oldCurrentLine;
+        } else {
+            _lines[oldCurrentLine]->highlight(false);
+            _lines[_currentLine]->highlight(true);
+        }
+    }
+}
+
+void Page::goToLowerLine() {
+    if ( _currentLine < (_lines.size() - 1) ) {
+        int oldCurrentLine = _currentLine;
+
+        do {
+            _currentLine ++;
+        } while( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) && _currentLine < (_lines.size() - 1) );
+
+        if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) ) {
+                _currentLine = oldCurrentLine;
+        } else {
+            _lines[oldCurrentLine]->highlight(false);
+            _lines[_currentLine]->highlight(true);
+        }
+    }
+}
+
+void Page::interactWithLine() {
+    if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::SELECTABLE) )
+        _lines[_currentLine]->toggle();
+}

@@ -12,9 +12,9 @@ class AbstractLine {
         };
 
         enum class LineInteraction {
-            UNFOCUSABLE = 0,
-            FOCUSABLE   = 1 << 0,
-            SELECTABLE  = 1 << 1,
+            UNFOCUSABLE = 1 << 0,
+            FOCUSABLE   = 1 << 1,
+            SELECTABLE  = 1 << 2,
         };
 
         virtual ~AbstractLine() {}

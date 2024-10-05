@@ -19,6 +19,10 @@ class Page {
         void addTitle(std::string txt);
         void addCategoryLine(std::string txt);
         void addSelectableLine(std::string txt);
+        void goToFirstFocusableLine();
+        void goToUpperLine();
+        void goToLowerLine();
+        void interactWithLine();
 
     private:
         void draw();
@@ -29,5 +33,6 @@ class Page {
         WINDOW* _win;
 
         std::vector<std::unique_ptr<AbstractLine>> _lines;
+        int _currentLine = 0;
 };
 #endif // PAGE_H

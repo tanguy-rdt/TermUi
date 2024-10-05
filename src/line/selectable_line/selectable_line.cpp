@@ -1,4 +1,5 @@
 #include "selectable_line.h"
+#include "term_ui_conf_internal.h"
 
 SelectableLine::SelectableLine(WINDOW* win, int line, std::string txt)
     : _win(win), _line(line), _txt(txt) {
@@ -13,7 +14,7 @@ SelectableLine::~SelectableLine(){
 }
 
 void SelectableLine::highlight(bool enable) {
-    enable ? wattron(_win, COLOR_PAIR(3)) : wattroff(_win, COLOR_PAIR(3));
+    enable ? wattron(_win, COLOR_PAIR(TUI_HIGHLIGHT_COLOR_IDX)) : wattroff(_win, COLOR_PAIR(TUI_HIGHLIGHT_COLOR_IDX));
     _checked ? drawCheckedLine() : drawUncheckedLine();
 }
 

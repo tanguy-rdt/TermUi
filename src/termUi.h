@@ -19,6 +19,7 @@ class TermUi {
         Page* addPage(int height, int width);
         void showPage(int idx);
         void showMainPage();
+        void run();
 
     private:
         void initColor();
