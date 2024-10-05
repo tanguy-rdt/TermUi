@@ -64,8 +64,13 @@ void TermUi::run() {
                 _pages[_currentPage]->goToLowerLine();
                 break;
             case KEY_LEFT:
+                _pages[_currentPage]->goToLeft();
                 break;
             case KEY_RIGHT:
+                _pages[_currentPage]->goToRight();
+                break;
+            case 9:
+                _pages[_currentPage]->switchBtwLineMenu();
                 break;
             case 10:
                 _pages[_currentPage]->interactWithLine();

@@ -5,6 +5,7 @@
 #include "title_line.h"
 #include "category_line.h"
 #include "selectable_line.h"
+#include "in_page_menu.h"
 
 Page::Page(){
     #if defined(RATIO_WIN_SIZED)
@@ -48,6 +49,8 @@ void Page::draw(){
     for (const auto& line: _lines) {
         line->draw();
     }
+
+    _menu->draw();
 }
 
 void Page::show() {
@@ -77,6 +80,10 @@ void Page::addSelectableLine(std::string txt){
     _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt));
 }
 
+void Page::addMenu(std::vector<std::string> btn) {
+    _menu = std::make_unique<InPageMenu>(_win, btn);
+}
+
 void Page::goToFirstFocusableLine() {
     int oldCurrentLine = _currentLine;
     _currentLine = 0;
@@ -94,7 +101,7 @@ void Page::goToFirstFocusableLine() {
 }
 
 void Page::goToUpperLine() {
-    if ( _currentLine > 0 ) {
+    if ( _currentLine > 0 && !_menuIsFocused ) {
         int oldCurrentLine = _currentLine;
 
         do {
@@ -111,7 +118,7 @@ void Page::goToUpperLine() {
 }
 
 void Page::goToLowerLine() {
-    if ( _currentLine < (_lines.size() - 1) ) {
+    if ( _currentLine < (_lines.size() - 1) && !_menuIsFocused ) {
         int oldCurrentLine = _currentLine;
 
         do {
@@ -124,6 +131,30 @@ void Page::goToLowerLine() {
             _lines[oldCurrentLine]->highlight(false);
             _lines[_currentLine]->highlight(true);
         }
+    }
+}
+
+void Page::goToLeft() {
+    if ( _menuIsFocused ) {
+        _menu->goToPrevious();
+    }
+}
+
+void Page::goToRight() {
+    if ( _menuIsFocused ) {
+        _menu->goToNext();
+    }
+}
+
+void Page::switchBtwLineMenu() {
+    _menuIsFocused = !_menuIsFocused;
+
+    if (_menuIsFocused) {
+        _lines[_currentLine]->highlight(false);
+        _menu->highlight(true);
+    } else {
+        _lines[_currentLine]->highlight(true);
+        _menu->highlight(false);
     }
 }
 

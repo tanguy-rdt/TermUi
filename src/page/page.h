@@ -7,6 +7,7 @@
 #include <ncurses.h>
 
 #include "abstract_line.h"
+#include "abstract_menu.h"
 
 class Page {
     public:
@@ -19,9 +20,13 @@ class Page {
         void addTitle(std::string txt);
         void addCategoryLine(std::string txt);
         void addSelectableLine(std::string txt);
+        void addMenu(std::vector<std::string> btn);
         void goToFirstFocusableLine();
         void goToUpperLine();
         void goToLowerLine();
+        void goToLeft();
+        void goToRight();
+        void switchBtwLineMenu();
         void interactWithLine();
 
     private:
@@ -34,5 +39,8 @@ class Page {
 
         std::vector<std::unique_ptr<AbstractLine>> _lines;
         int _currentLine = 0;
+
+        std::unique_ptr<AbstractMenu> _menu;
+        bool _menuIsFocused = false;
 };
 #endif // PAGE_H
