@@ -7,7 +7,11 @@
 #include "selectable_line.h"
 #include "in_page_menu.h"
 
-Page::Page(){
+Page::Page(NavCtrl* navCtrl) : 
+    _navCtrl(navCtrl) {
+
+    _navCtrl->registerNewPage(this);
+
     #if defined(RATIO_WIN_SIZED)
         _height = LINES * TUI_WIN_HEIGHT;
         _width  = COLS  * TUI_WIN_WIDTH;
@@ -22,8 +26,10 @@ Page::Page(){
     init();
 }
 
-Page::Page(int height, int width) :
-    _height(height), _width(width) {
+Page::Page(NavCtrl* navCtrl, int height, int width) :
+    _navCtrl(navCtrl), _height(height), _width(width) {
+
+    _navCtrl->registerNewPage(this);
     
     init();
 }

@@ -2,14 +2,8 @@
 #include "term_ui_conf_internal.h"
 
 TermUi::TermUi() {
+    _navCtrl = std::make_unique<NavCtrl>();
 
-}
-
-TermUi::~TermUi() {
-
-}
-
-void TermUi::init() {
     initscr();          
 
     cbreak();   
@@ -17,6 +11,10 @@ void TermUi::init() {
     keypad(stdscr, TRUE); 
 
     initColor();
+}
+
+TermUi::~TermUi() {
+
 }
 
 void TermUi::initColor() {
@@ -33,20 +31,20 @@ void TermUi::initColor() {
 
 
 Page* TermUi::addPage() {
-    _pages.push_back(std::make_unique<Page>());
+    _pages.push_back(std::make_unique<Page>(_navCtrl.get()));
     return _pages.back().get();
 }
 
 Page* TermUi::addPage(int height, int width) {
-    _pages.push_back(std::make_unique<Page>(height, width));
+    _pages.push_back(std::make_unique<Page>(_navCtrl.get(), height, width));
     return _pages.back().get();
 }
 
 void TermUi::showPage(int idx) {
-    _pages[_currentPage]->hide();
-    _currentPage = idx;
-    _pages[_currentPage]->show();
-    _pages[_currentPage]->goToFirstFocusableLine();
+    _navCtrl->getCurrentPage()->hide();
+    _navCtrl->setCurrentPage(idx);
+    _navCtrl->getCurrentPage()->show();
+    _navCtrl->getCurrentPage()->goToFirstFocusableLine();
 }
 
 void TermUi::showMainPage() {
@@ -58,22 +56,22 @@ void TermUi::run() {
     while ((ch = getch()) != 'q') { 
         switch (ch) {
             case KEY_UP:
-                _pages[_currentPage]->goToUpperLine();
+                _navCtrl->getCurrentPage()->goToUpperLine();
                 break;
             case KEY_DOWN:
-                _pages[_currentPage]->goToLowerLine();
+                _navCtrl->getCurrentPage()->goToLowerLine();
                 break;
             case KEY_LEFT:
-                _pages[_currentPage]->goToLeft();
+                _navCtrl->getCurrentPage()->goToLeft();
                 break;
             case KEY_RIGHT:
-                _pages[_currentPage]->goToRight();
+                _navCtrl->getCurrentPage()->goToRight();
                 break;
             case 9: // tab
-                _pages[_currentPage]->switchBtwLineMenu();
+                _navCtrl->getCurrentPage()->switchBtwLineMenu();
                 break;
             case 10: // enter
-                _pages[_currentPage]->interactWithLine();
+                _navCtrl->getCurrentPage()->interactWithLine();
                 break;
         }
     }

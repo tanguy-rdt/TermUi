@@ -9,11 +9,12 @@
 
 #include "abstract_line.h"
 #include "abstract_menu.h"
+#include "naviguation_controller.h"
 
 class Page {
     public:
-        Page();
-        Page(int height, int width);
+        Page(NavCtrl* navCtrl);
+        Page(NavCtrl* navCtrl, int height, int width);
         ~Page();
 
         void show();
@@ -34,6 +35,8 @@ class Page {
     private:
         void draw();
         void init();
+
+        NavCtrl* _navCtrl;
 
         int _height;
         int _width;

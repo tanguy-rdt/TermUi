@@ -7,14 +7,14 @@
 
 #include <ncurses.h>
 
-#include <page.h>
+#include "page.h"
+#include "naviguation_controller.h"
 
 class TermUi {
     public:
         TermUi();
         ~TermUi();
 
-        void init();
         Page* addPage();
         Page* addPage(int height, int width);
         void showPage(int idx);
@@ -23,6 +23,8 @@ class TermUi {
 
     private:
         void initColor();
+
+        std::unique_ptr<NavCtrl> _navCtrl;
 
         std::vector<std::unique_ptr<Page>> _pages;
         int _currentPage = 0;
