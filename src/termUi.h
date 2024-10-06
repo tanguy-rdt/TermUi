@@ -20,6 +20,7 @@ class TermUi {
         void showPage(Page* page);
         void showPage(int idx);
         void showMainPage();
+        void showPreviousPage();
         void run();
 
     private:

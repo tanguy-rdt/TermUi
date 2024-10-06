@@ -48,6 +48,11 @@ void TermUi::showPage(int idx) {
     _navCtrl->setCurrentPage(idx);
 }
 
+void TermUi::showPreviousPage() {
+    _navCtrl->setPreviousPage();
+}
+
+
 void TermUi::run() {
     int ch;
     while ((ch = getch()) != 'q') { 

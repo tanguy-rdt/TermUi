@@ -33,6 +33,8 @@ class Page {
         void goToLeft();
         void goToRight();
         void switchBtwLineMenu();
+        bool menuIsFocused();
+        bool linesIsFocused();
         void interactWithLine();
 
     private:

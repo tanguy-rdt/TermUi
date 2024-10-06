@@ -179,9 +179,19 @@ void Page::switchBtwLineMenu() {
     }
 }
 
+bool Page::menuIsFocused() {
+    return _menuIsFocused;
+}
+
+bool Page::linesIsFocused() {
+    return !_menuIsFocused;
+}
+
 void Page::interactWithLine() {
-    if ( _menuIsFocused )
+    if ( _menuIsFocused ) {
         _menu->select();
-    else if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::SELECTABLE))
+    }
+    else if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::SELECTABLE)) {
         _lines[_currentLine]->toggle();
+    }
 }
