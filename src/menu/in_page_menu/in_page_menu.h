@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <functional>
+
 #include <ncurses.h>
 
 #include "sigslot/signal.hpp"
@@ -11,12 +13,12 @@
 
 class InPageMenu: public AbstractMenu {
     public:
-        InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector<void (*)()> callbacks);
+        InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector<std::function<void()>> callbacks);
         InPageMenu(WINDOW* win);
         ~InPageMenu();
         
         void draw();
-        void addBtn(std::string txt, void (*callback)());
+        void addBtn(std::string txt, std::function<void()> callback);
         void highlight(bool enable);
         void goToNext();
         void goToPrevious();

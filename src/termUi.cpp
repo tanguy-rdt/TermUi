@@ -40,15 +40,12 @@ Page* TermUi::addPage(int height, int width) {
     return _pages.back().get();
 }
 
-void TermUi::showPage(int idx) {
-    _navCtrl->getCurrentPage()->hide();
-    _navCtrl->setCurrentPage(idx);
-    _navCtrl->getCurrentPage()->show();
-    _navCtrl->getCurrentPage()->goToFirstFocusableLine();
+void TermUi::showPage(Page* page) {
+    _navCtrl->setCurrentPage(page);
 }
 
-void TermUi::showMainPage() {
-    showPage(0);
+void TermUi::showPage(int idx) {
+    _navCtrl->setCurrentPage(idx);
 }
 
 void TermUi::run() {

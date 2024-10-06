@@ -1,7 +1,7 @@
 #include "in_page_menu.h"
 #include "term_ui_conf_internal.h"
 
-InPageMenu::InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector<void (*)()> callbacks)
+InPageMenu::InPageMenu(WINDOW* win, std::vector<std::string> btnTxt, std::vector<std::function<void()>> callbacks)
     : _win(win), _btn(btnTxt) {
 
     for (const auto& cb: callbacks) {
@@ -44,7 +44,7 @@ void InPageMenu::draw() {
     wrefresh(_win);  
 }
 
-void InPageMenu::addBtn(std::string txt, void (*callback)()) {
+void InPageMenu::addBtn(std::string txt, std::function<void()> callback) {
     _btn.push_back(txt);
     auto sig = std::make_unique<sigslot::signal<>>();
     if (callback != nullptr)

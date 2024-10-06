@@ -17,6 +17,7 @@ class TermUi {
 
         Page* addPage();
         Page* addPage(int height, int width);
+        void showPage(Page* page);
         void showPage(int idx);
         void showMainPage();
         void run();

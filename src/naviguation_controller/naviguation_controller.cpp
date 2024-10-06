@@ -19,11 +19,17 @@ Page* NavCtrl::getCurrentPage() {
 }
 
 void NavCtrl::setCurrentPage(int idx) {
+    _pages[_currentPage]->hide();
     _currentPage = idx;
+    _pages[_currentPage]->show();
+    _pages[_currentPage]->goToFirstFocusableLine();
 }
 
 void NavCtrl::setCurrentPage(Page* page) {
+    _pages[_currentPage]->hide();
     _currentPage = getPageIdx(page);
+    _pages[_currentPage]->show();
+    _pages[_currentPage]->goToFirstFocusableLine();
 }
 
 int NavCtrl::getPageIdx(Page* page) {

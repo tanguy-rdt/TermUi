@@ -5,6 +5,7 @@
 #include "title_line.h"
 #include "category_line.h"
 #include "selectable_line.h"
+#include "embedded_page_line.h"
 #include "in_page_menu.h"
 
 Page::Page(NavCtrl* navCtrl) : 
@@ -56,7 +57,8 @@ void Page::draw(){
         line->draw();
     }
 
-    _menu->draw();
+    if (_menu != nullptr)
+        _menu->draw();
 }
 
 void Page::show() {
@@ -82,8 +84,16 @@ void Page::addCategoryLine(std::string txt){
     _lines.push_back(std::make_unique<CategoryLine>(_win, (_lines.size() + 1), txt));
 }
 
-void Page::addSelectableLine(std::string txt, void (*callback)(bool)){
+void Page::addSelectableLine(std::string txt, std::function<void(bool)> callback){
     _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt, callback));
+}
+
+void Page::addSelectableLine(std::string txt){
+    _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt, nullptr));
+}
+
+void Page::addEmbeddedPageLine(std::string txt, Page* page){
+    _lines.push_back(std::make_unique<EmbeddedPageLine>(_win, (_lines.size() + 1), txt, page, _navCtrl));
 }
 
 AbstractMenu* Page::addMenu() {
@@ -91,7 +101,7 @@ AbstractMenu* Page::addMenu() {
     return _menu.get();
 }
 
-void Page::addMenu(std::vector<std::string> btn, std::vector<void (*)()> callbacks) {
+void Page::addMenu(std::vector<std::string> btn, std::vector<std::function<void()>> callbacks) {
     _menu = std::make_unique<InPageMenu>(_win, btn, callbacks);
 }
 
@@ -99,7 +109,7 @@ void Page::goToFirstFocusableLine() {
     int oldCurrentLine = _currentLine;
     _currentLine = 0;
 
-    while ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) ) {
+    while ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) && _currentLine < _lines.size() - 1 ) {
         _currentLine ++;
     }
 
