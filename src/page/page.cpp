@@ -106,18 +106,20 @@ void Page::addMenu(std::vector<std::string> btn, std::vector<std::function<void(
 }
 
 void Page::goToFirstFocusableLine() {
-    int oldCurrentLine = _currentLine;
-    _currentLine = 0;
+    if ( !_lines.empty() ) {
+        int oldCurrentLine = _currentLine;
+        _currentLine = 0;
 
-    while ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) && _currentLine < _lines.size() - 1 ) {
-        _currentLine ++;
-    }
+        while ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::UNFOCUSABLE) && _currentLine < _lines.size() - 1 ) {
+            _currentLine ++;
+        }
 
-    if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::FOCUSABLE) ) {
-        _lines[oldCurrentLine]->highlight(false);
-        _lines[_currentLine]->highlight(true);
-    } else {
-        _currentLine = oldCurrentLine;
+        if ( _lines[_currentLine]->hasInteraction(AbstractLine::LineInteraction::FOCUSABLE) ) {
+            _lines[oldCurrentLine]->highlight(false);
+            _lines[_currentLine]->highlight(true);
+        } else {
+            _currentLine = oldCurrentLine;
+        }
     }
 }
 
