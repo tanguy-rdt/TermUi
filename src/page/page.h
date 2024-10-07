@@ -22,8 +22,8 @@ class Page {
         void hide();
         void addTitle(std::string txt);
         void addCategoryLine(std::string txt);
-        void addSelectableLine(std::string txt, std::function<void(bool)> callback);
-        void addSelectableLine(std::string txt);
+        void addSelectableLine(std::string txt, bool defaultValue, std::function<void(bool)> callback);
+        void addSelectableLine(std::string txt, bool defaultValue);
         void addEmbeddedPageLine(std::string txt, Page* page);
         AbstractMenu* addMenu();
         void addMenu(std::vector<std::string> btn, std::vector<std::function<void()>> callbacks);

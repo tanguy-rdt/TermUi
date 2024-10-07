@@ -11,7 +11,7 @@
 
 class SelectableLine: public AbstractLine {
     public:
-        SelectableLine(WINDOW* win, int line, std::string txt, std::function<void(bool)> callback);
+        SelectableLine(WINDOW* win, int line, std::string txt, bool defaultValue, std::function<void(bool)> callback);
         ~SelectableLine();
 
         void highlight(bool enable);

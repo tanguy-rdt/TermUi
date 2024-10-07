@@ -84,12 +84,12 @@ void Page::addCategoryLine(std::string txt){
     _lines.push_back(std::make_unique<CategoryLine>(_win, (_lines.size() + 1), txt));
 }
 
-void Page::addSelectableLine(std::string txt, std::function<void(bool)> callback){
-    _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt, callback));
+void Page::addSelectableLine(std::string txt, bool defaultValue, std::function<void(bool)> callback){
+    _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt, defaultValue, callback));
 }
 
-void Page::addSelectableLine(std::string txt){
-    _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt, nullptr));
+void Page::addSelectableLine(std::string txt, bool defaultValue){
+    _lines.push_back(std::make_unique<SelectableLine>(_win, (_lines.size() + 1), txt, defaultValue, nullptr));
 }
 
 void Page::addEmbeddedPageLine(std::string txt, Page* page){
