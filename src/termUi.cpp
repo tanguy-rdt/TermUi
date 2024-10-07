@@ -53,9 +53,14 @@ void TermUi::showPreviousPage() {
 }
 
 
-void TermUi::run() {
+int TermUi::run() {
+    _running = true;
     int ch;
-    while ((ch = getch()) != 'q') { 
+    
+    nodelay(stdscr, TRUE);
+    while (_running) { 
+        ch = getch();
+
         switch (ch) {
             case KEY_UP:
                 _navCtrl->getCurrentPage()->goToUpperLine();
@@ -75,6 +80,19 @@ void TermUi::run() {
             case 10: // enter
                 _navCtrl->getCurrentPage()->interactWithLine();
                 break;
+            case 113: // q
+                return 1;
+                break;
+            case 27: // escape
+                return 1;
+                break;
         }
     }
+
+    return _returnValue;
+}
+
+void TermUi::quit(int ret) {
+    _running = false;
+    _returnValue = ret;
 }

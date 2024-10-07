@@ -21,7 +21,8 @@ class TermUi {
         void showPage(int idx);
         void showMainPage();
         void showPreviousPage();
-        void run();
+        int run();
+        void quit(int ret);
 
     private:
         void initColor();
@@ -30,5 +31,7 @@ class TermUi {
 
         std::vector<std::unique_ptr<Page>> _pages;
         int _currentPage = 0;
+        bool _running = false;
+        int _returnValue = 0;
 };
 #endif // TERM_UI_H
