@@ -81,10 +81,10 @@ int TermUi::run() {
                 _navCtrl->getCurrentPage()->interactWithLine();
                 break;
             case 113: // q
-                return 1;
+                return 100;
                 break;
             case 27: // escape
-                return 1;
+                return 100;
                 break;
         }
     }
